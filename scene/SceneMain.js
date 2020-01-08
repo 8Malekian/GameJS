@@ -10,7 +10,7 @@ class SceneMain extends Phaser.Scene {
         this.load.image('space', 'img/space.jpg');
         this.load.image('laser', 'img/laser.bmp');
         this.load.image('bullet', 'img/petit_rond.png');        
-        this.load.image('enemyRed', 'img/enemyRed.png');
+        this.load.image('enemyRed', 'img/enemyM.png');
         this.load.spritesheet("explosion", "img/explosion.png", {
             frameWidth: 32,
             frameHeight: 32
@@ -39,9 +39,10 @@ class SceneMain extends Phaser.Scene {
             this.game.config.width * 0.5,
             this.game.config.height * 0.5,"ship"            
           );
-
+        
         
         //Variable de touche
+        
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -108,12 +109,13 @@ class SceneMain extends Phaser.Scene {
      //var vaisseau.alive = true;
      this.scoreText = this.add.text(20, 20, score, style);
      this.scoreText.depth =10;
-        
+     
+     
     }
 update(){
         this.player.update();
         if (this.up.isDown) {    
-                this.player.moveUp();
+           this.player.moveUp();
             }
         else if (this.down.isDown) {
             this.player.moveDown();
@@ -122,8 +124,13 @@ update(){
             this.player.moveLeft();
             }
         else if (this.right.isDown) {
-         this.player.moveRight();
-
+          this.player.moveRight();
              }
+            
+            if (Phaser.Input.Keyboard.JustDown(this.space)) {
+              this.player.setData("tire", true);
+          } else {
+            this.player.setData("tire", false);
+              }  
   }
 }

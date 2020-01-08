@@ -18,7 +18,7 @@ class Player extends Entity {
         this.setData("speed", 200);
         this.setData("tire",false);
         this.setData("tempRecharge",10);
-        this.setData("tire",false);
+        this.setData("tempTire",this.getData("tempRecharge")-1);
     }
     moveRight() {
         this.body.velocity.x = this.getData("speed");
@@ -34,8 +34,15 @@ class Player extends Entity {
       }
     update(){
         this.body.setVelocity(0, 0);
-this.x = Phaser.Math.Clamp(this.x, 20, this.scene.game.config.width-20);
-this.y = Phaser.Math.Clamp(this.y, 20, this.scene.game.config.height-20);
+          this.x = Phaser.Math.Clamp(this.x, 20, this.scene.game.config.width-20);
+          this.y = Phaser.Math.Clamp(this.y, 20, this.scene.game.config.height-20);
+        if(this.getData("tire")){
+          var bulletP = new PlayerLazer(
+            this.scene,
+            this.x,
+            this.y);
+            this.scene.playerLasers.add(bulletP);
+        }
     }};
 
 class enemyM extends Entity{
@@ -74,6 +81,12 @@ onDestroy () {
     
 }
 }};
+class PlayerLazer extends Entity{
+  constructor(scene,x,y){
+    super(scene,x,y,"bullet")
+    this.body.velocity.x=+200;
+  }
+}
 
 class decors {
     
