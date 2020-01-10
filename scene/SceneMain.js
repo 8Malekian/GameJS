@@ -21,9 +21,8 @@ class SceneMain extends Phaser.Scene {
     
     create() {
         //  initialisation de l'affichage ...
-        this.add.image(400, 300, 'space');
+        this.add.image(400, 300, 'space');        
         
-        //vaisseau.setCollideWorldBounds();
 
         //animation de l'explosion
         this.anims.create({
@@ -52,8 +51,8 @@ class SceneMain extends Phaser.Scene {
         //Variable pour associer objet et laser
         this.targets= this.add.group();
         this.targetbullets=this.add.group();
-        this.playerLasers= this.add.group();
-        
+        this.playerbullets= this.add.group();
+        this.decors= this.add.group();
         //apparition des cibles
         this.time.addEvent({
             delay: 2000,
@@ -63,41 +62,85 @@ class SceneMain extends Phaser.Scene {
                 this.game.config.width ,Phaser.Math.Between(75,(this.game.config.height-75))
               );
               this.targets.add(target);
+              
             },
+            
             callbackScope: this,
             loop: true
           
 
-        })
+        });
         
        
        // Appel la fonction generedecors toutes les 1,5 secondes
         this.time.addEvent({
             delay: 350,
-            callback: function nouveaudecors (){
-                        // on regroupe les decors dans un objet groupe
-            decors = this.physics.add.group();
-            var typeDecors = Phaser.Math.Between(1, 8);
-            if (typeDecors != 8 && typeDecors != 7) {
+            callback: function (){
+              var typeDecors = Phaser.Math.Between(1, 8);
+              if (typeDecors != 8 && typeDecors != 7) {
                 // on ajoute les petits decors
-                //decors.create(400, (60 * typeDecors) + 30, 'topwall1');
-                decors.create(820, 30, 'topwall1');
-                decors.create(820, 460, 'topwall1');
+                var decorH= new decors (this, 820,30);
+                var decorB= new decors (this, 820,580);
+                this.decors.add(decorH);
+                this.decors.add(decorB);
+                
             } else {
-                //on ajoute les grands decors
-                decors.create(820, 30, 'topwall1');
-                decors.create(820, 70, 'topwall1');
-                decors.create(820, 410, 'topwall1');
-                decors.create(820, 460, 'topwall1');
+                //on ajoute des grands decors
+                var decorH1= new decors (this, 820,30);
+                var decorH2= new decors (this, 820,70);
+                var decorB1= new decors (this, 820,530);
+                var decorB2= new decors (this, 820,580);
+               
+                this.decors.add(decorH1);
+                this.decors.add(decorH2);
+                this.decors.add(decorB1);
+                this.decors.add(decorB2);
+
             }
-
-
-    decors.setVelocityX(-200); // Fait défiler le decord vers la gauche
-    score += 1;
-    this.scoreText.setText(score);
-            },
+            score += 1;
+            this.scoreText.setText(score);
+          },              
             callbackScope: this,
-            loop: true,
+            loop: true
+        });
+       
+
+      //collision avec laser dujoueur
+      this.physics.add.collider(this.playerbullets,this.targets,function (playerbullets,enemyM) {
+        if (enemyM.onDestroy !== undefined) {
+             enemyM.onDestroy();
+        }
+        enemyM.onDestroy(true);
+        enemyM.destroy();
+        playerbullets.destroy();
+        score+=100
+      })
+      //collision avec les laser enemy
+      this.physics.add.overlap(this.player, this.targets, function(player, enemyM) {
+        if (!player.getData("isDead") &&
+            !enemyM.getData("isDead")) {
+          player.explosion(false);
+          player.ondestroy();
+          enemyM.explosion(true);
+          
+        }});
+
+       this.physics.add.overlap(this.player, this.targetbullets, function(player, Mbullet) {
+          if (!player.getData("isDead") &&
+              !Mbullet.getData("isDead")) {
+            player.explosion(false);
+            Mbullet.destroy();
+          }
+        });
+
+
+      //collision avec mur
+      this.physics.add.overlap(this.player,this.decors,function(player, decors) {
+      if (!player.getData("isDead")) {
+            player.explosion(false);
+            player.ondestroy();
+            
+          }
         });
      // Affichage du score
      var score;
@@ -106,7 +149,7 @@ class SceneMain extends Phaser.Scene {
          fill: '#fff',         
      };
      score = 0;
-     //var vaisseau.alive = true;
+ 
      this.scoreText = this.add.text(20, 20, score, style);
      this.scoreText.depth =10;
      

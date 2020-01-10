@@ -1,6 +1,6 @@
 var config = {
     width: 800,
-    height: 490,
+    height: 600,
     backgroundColor: "black",
     /*scene: {
         preload: preload, // Chargement des ressources
