@@ -9,12 +9,14 @@ class SceneMainMenu extends Phaser.Scene {
 
     }
     create() {
+      //ajout du bouton play
       this.add.image(400, 170, 'start');  
       this.start= this.add.sprite(
         this.game.config.width * 0.5,
         this.game.config.height * 0.85,
         "btnPlay"
       );
+      //creation de l'animation du bouton (effet clic dessus)
       this.start.setInteractive();
 
       this.start.on("pointerdown", function() {

@@ -20,7 +20,7 @@ class SceneMain extends Phaser.Scene {
     }
     
     create() {
-        //  initialisation de l'affichage ...
+        //  initialisation de l'affichage avec la taille de l'ecrand de jeux 
         this.add.image(400, 300, 'space');        
         
 
@@ -53,6 +53,7 @@ class SceneMain extends Phaser.Scene {
         this.targetbullets=this.add.group();
         this.playerbullets= this.add.group();
         this.decors= this.add.group();
+        
         //apparition des cibles
         this.time.addEvent({
             delay: 2000,
@@ -72,7 +73,7 @@ class SceneMain extends Phaser.Scene {
         });
         
        
-       // Appel la fonction generedecors toutes les 1,5 secondes
+       // création les décors
         this.time.addEvent({
             delay: 350,
             callback: function (){
@@ -115,7 +116,7 @@ class SceneMain extends Phaser.Scene {
         playerbullets.destroy();
         score+=100
       })
-      //collision avec les laser enemy
+      //collision avec les enemis
       this.physics.add.overlap(this.player, this.targets, function(player, enemyM) {
         if (!player.getData("isDead") &&
             !enemyM.getData("isDead")) {
@@ -124,7 +125,7 @@ class SceneMain extends Phaser.Scene {
           enemyM.explosion(true);
           
         }});
-
+        //collision avec les laser enemis
        this.physics.add.overlap(this.player, this.targetbullets, function(player, Mbullet) {
           if (!player.getData("isDead") &&
               !Mbullet.getData("isDead")) {
@@ -156,6 +157,7 @@ class SceneMain extends Phaser.Scene {
      
     }
 update(){
+       //mouvement
         this.player.update();
         if (this.up.isDown) {    
            this.player.moveUp();
@@ -169,10 +171,10 @@ update(){
         else if (this.right.isDown) {
           this.player.moveRight();
              }
-            
-            if (Phaser.Input.Keyboard.JustDown(this.space)) {
-              this.player.setData("tire", true);
-          } else {
+            //tire
+        if (Phaser.Input.Keyboard.JustDown(this.space)) {
+            this.player.setData("tire", true);
+        } else {
             this.player.setData("tire", false);
               }  
   }

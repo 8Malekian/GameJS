@@ -1,3 +1,4 @@
+//class mere des objet 
 class Entity extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, key, type) {
         {
@@ -19,7 +20,7 @@ this.setAngle(+15);
       this.body.setVelocity(0, +400);
 
 }};
-
+//vaisseau du joueur
 class Player extends Entity {
     constructor(scene, x, y, key, type) {
         super (scene, x, y, key, "Player");
@@ -63,6 +64,20 @@ class Player extends Entity {
       });
     }};
 
+//tire du joueur
+class PlayerBullet extends Entity{
+  constructor(scene,x,y){
+    super(scene,x,y,"bullet")
+    this.body.velocity.x=+200;
+  }
+  onDestroy () {
+    if (this.lasershoot !== undefined) {
+        if (this.lasershoot) {
+          this.lasershoot.remove(false);
+        }
+}}};
+
+//vaisseau enemis
 class enemyM extends Entity{
     constructor(scene, x, y) {
         super(scene, x, y, "enemyRed", "enemy1");
@@ -86,11 +101,9 @@ class enemyM extends Entity{
                 if (this.lasershoot) {
                   this.lasershoot.remove(false);
                 }
-              }}
-    
+              }}};
 
-};
-
+//tire des enemis
 class Mbullet extends Entity{
     constructor(scene, x, y) {
         super(scene, x, y, "bullet");
@@ -101,21 +114,8 @@ onDestroy () {
         if (this.lasershoot) {
           this.lasershoot.remove(false);
         }
-    
-    
-}
-}};
-class PlayerBullet extends Entity{
-  constructor(scene,x,y){
-    super(scene,x,y,"bullet")
-    this.body.velocity.x=+200;
-  }
-  onDestroy () {
-    if (this.lasershoot !== undefined) {
-        if (this.lasershoot) {
-          this.lasershoot.remove(false);
-        }
-}}}
+}}};
+//element de decor
 
 class decors extends Entity {
     

@@ -35,7 +35,7 @@ var score;
 var pointeur;
 
 function preload() {
-    // C'est là qu'on vas charger les images et les sons
+    // chargement des images 
     this.load.image('ship', 'img/Vaisseau6.png');
     this.load.image('topwall1', 'img/topwall1.png');
     this.load.image('topwall2', 'img/topwall2.png');
@@ -45,7 +45,7 @@ function preload() {
 }
 
 function create() {
-    // Ici on vas initialiser les variables, l'affichage ...
+    // iinitialisation des variables et de la taille de jeux 
     this.add.image(400, 300, 'space');
     vaisseau = this.physics.add.sprite(200, 245, 'ship'); // Affiche 'vaiseau' en x=100 y=245
     vaisseau.setCollideWorldBounds();

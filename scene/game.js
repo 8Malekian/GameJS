@@ -2,12 +2,6 @@ var config = {
     width: 800,
     height: 600,
     backgroundColor: "black",
-    /*scene: {
-        preload: preload, // Chargement des ressources
-        create: create, // Initialisation des variables & objets
-        update: update // Fonction appelée 60 fois par seconde
-    }*/
-   // parent: 'R-type', // Affiche le jeu dans le div id="R-type"
     physics: {
         default: 'arcade', // Permet d'appliquer
         arcade: {
@@ -18,6 +12,7 @@ var config = {
 
         },
     },
+    //scene du jeux
     scene: [
         SceneMainMenu,
         SceneMain,
